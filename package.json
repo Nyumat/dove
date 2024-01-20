@@ -1,0 +1,31 @@
+{
+  "name": "with-docker",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "clean": "turbo run clean",
+    "dev": "turbo run dev",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "lint": "turbo run lint",
+    "test": "turbo run test"
+  },
+  "dependencies": { "geist": "^1.2.1" },
+  "devDependencies": {
+    "@repo/eslint-config": "*",
+    "autoprefixer": "^10.4.17",
+    "postcss": "^8.4.33",
+    "prettier": "^3.1.1",
+    "tailwindcss": "^3.4.1",
+    "turbo": "latest"
+  },
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=7.0.0"
+  },
+  "packageManager": "bun@1.0.19",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
+}
