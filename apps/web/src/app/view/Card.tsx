@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 "use client";
 
 import { Box, Flex, HStack, IconButton, Image } from "@chakra-ui/react";

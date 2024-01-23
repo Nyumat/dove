@@ -3,7 +3,7 @@
 import { Link } from "@chakra-ui/next-js";
 import { Box, Button, Heading, Text, VStack } from "@chakra-ui/react";
 import { useCallback, useEffect, useState } from "react";
-import { ImageCard, VideoCard } from "./ImageCard";
+import { ImageCard, VideoCard } from "./Card";
 
 const API_HOST = process.env.NEXT_PUBLIC_API_HOST || "http://localhost:3001";
 
@@ -27,9 +27,10 @@ type Response = {
 export default function View() {
   const [response, setResponse] = useState<Response | null>(null);
   const [error, setError] = useState<string | undefined>();
-
-  const token = localStorage.getItem("token");
-
+  let token: unknown;
+  if (global?.window !== undefined) {
+    localStorage.get("token", token);
+  }
   const onReset = () => {
     setError(undefined);
     setResponse(null);

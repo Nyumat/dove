@@ -21,7 +21,11 @@ export default function Upload() {
   const [response, setResponse] = useState<{ message: string } | null>(null);
   const [error, setError] = useState<string | undefined>();
   const [isLoading, setIsLoading] = useState(false);
-  const token = localStorage.getItem("token");
+  // next.js....thanks...
+    let token: unknown;
+  if (global?.window !== undefined) {
+    localStorage.getItem("token");
+  }
 
   const onDrop = useCallback(async (acceptedFiles: any) => {
     setIsLoading(true);

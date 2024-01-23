@@ -41,3 +41,4 @@ apps/api/public_key.pem
 packages/database/prisma/dev.db
 
 apps/api/uploads
+packages/database/prisma/dev.db-journal

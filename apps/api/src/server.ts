@@ -7,7 +7,6 @@ import { getSignedUrl } from "@aws-sdk/cloudfront-signer";
 import { Upload } from "@aws-sdk/lib-storage";
 import cors from "@fastify/cors";
 import fastifyJwt from "@fastify/jwt";
-import crypto from "crypto";
 import fastify from "fastify";
 import multer from "fastify-multer";
 import fs from "fs";
@@ -49,14 +48,6 @@ const cloudFrontClient = new CloudFrontClient({
   },
   region: BUCKET_REGION,
 });
-
-type Message = {
-  name: string;
-};
-
-const randomImageName = (bytes = 32): string => {
-  return crypto.randomBytes(bytes).toString("hex");
-};
 
 export const createServer = () => {
   const app = fastify({ logger: true });
@@ -148,7 +139,7 @@ export const createServer = () => {
     return { ok: true, token };
   });
 
-  app.get("/all", async (request, reply) => {
+  app.get("/all", async () => {
     const images = await dbClient.photo.findMany({
       orderBy: [{ id: "desc" }],
     });
@@ -180,7 +171,7 @@ export const createServer = () => {
     return { images, videos };
   });
 
-  app.delete("/delete/:id/:modal", async (request, reply) => {
+  app.delete("/delete/:id/:modal", async (request) => {
     const id = Number((request.params as Record<string, string>).id);
     const modal = (request.params as Record<string, string>).modal;
     let video;
@@ -248,7 +239,7 @@ export const createServer = () => {
     "/upload_video",
     { preHandler: upload.single("video") },
     async (request) => {
-      //@ts-ignore
+      //@ts-expect-error This package doesn't have types
       const file = request.file;
       const fileContent = fs.readFileSync(file.path);
       fs.unlinkSync(file.path);
@@ -292,7 +283,7 @@ export const createServer = () => {
     "/upload_photo",
     { preHandler: upload.single("image") },
     async (request) => {
-      //@ts-ignore
+      //@ts-expect-error This package doesn't have types
       const file = request.file;
       const fileContent = fs.readFileSync(file.path);
 
@@ -331,15 +322,7 @@ export const createServer = () => {
     },
   );
 
-  app.get("/message/:name", async (request, reply) => {
-    if (!request.params) {
-      return { message: "hello world" };
-    }
-    const params = request.params as Message;
-    return { message: `hello ${params.name}` };
-  });
-
-  app.get("/health", async (request, reply) => {
+  app.get("/health", async () => {
     return { ok: true };
   });
 

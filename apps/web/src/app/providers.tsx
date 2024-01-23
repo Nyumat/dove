@@ -19,7 +19,10 @@ const API_HOST = process.env.NEXT_PUBLIC_API_HOST || "http://localhost:3001";
 const theme = extendTheme({ config });
 
 export function Providers({ children }: { children: React.ReactNode }) {
-  const token = localStorage.getItem("token");
+  let token: unknown;
+  if (global?.window !== undefined) {
+    localStorage.getItem("token");
+  }
   const router = useRouter();
 
   useLayoutEffect(() => {

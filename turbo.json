@@ -51,6 +51,13 @@
         },
         "db:push": {
             "cache": false
+        },
+        "start": {
+            "dependsOn": [
+                "^build",
+                "^db:generate",
+                "^db:push"
+            ]
         }
     }
 }
